@@ -5,7 +5,8 @@ var Genarator = {
         var creeps = {
             harvester: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.room == spawns.room),
             upgrader: _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.room == spawns.room),
-            builder: _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room == spawns.room)
+            builder: _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room == spawns.room),
+            carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room == spawns.room)
         }
         for(c in creeps){
             console.log(c + ': ' + creeps[c].length);

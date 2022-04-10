@@ -1,11 +1,11 @@
 var config = {
     harvester: {
         1: {
-            num: 1,
+            num: 4,
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 4,
+            num: 6,
             mod: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         }
     },
@@ -27,6 +27,16 @@ var config = {
         2: {
             num: 4,
             mod: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
+        }
+    },
+    carrier: {
+        1: {
+            num: 0,
+            mod: [CARRY,CARRY,MOVE]
+        },
+        2: {
+            num: 1,
+            mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         }
     }
 }
