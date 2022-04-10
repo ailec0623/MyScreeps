@@ -42,11 +42,26 @@ var Genarator = {
     },
     genarator: function(spawns, role) {
         var newName = role + Game.time;
+        var energySources = spawns.room.find(FIND_SOURCES, {
+            filter: (source) => {
+                return source.energy > 0;
+            }
+        });
+        var energySource = null;
+        if(energySources.length == 1){
+            energySource = energySources[0];
+        }else if(energySources.length == 2){
+            if(energySources[0].energy < energySources[1].energy){
+                energySource = energySources[1];
+            }else{
+                energySource = energySources[0];
+            }
+        }
         console.log('Spawning new creep: ' + newName);
         if(spawns.room.energyCapacityAvailable == spawns.room.controller.level * 500 - 200){
-            spawns.spawnCreep(config[role][spawns.room.controller.level]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level}});
+            spawns.spawnCreep(config[role][spawns.room.controller.level]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level, energySource: energySource}});
         }else{
-            spawns.spawnCreep(config[role][spawns.room.controller.level - 1]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level}});
+            spawns.spawnCreep(config[role][spawns.room.controller.level - 1]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level, energySource: energySource}});
         }
            
     }
