@@ -25,7 +25,7 @@ var config = {
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 4,
+            num: 8,
             mod: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
         }
     }

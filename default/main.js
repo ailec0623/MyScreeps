@@ -1,6 +1,7 @@
 var Creeps = require('creeps');
 var Genarator = require('genarator');
 
+require('./mount')()
 
 module.exports.loop = function () {
 
