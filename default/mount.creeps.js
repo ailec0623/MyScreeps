@@ -179,6 +179,9 @@ const creepExtension = {
         }
     },
     pickEnergy(){
+        if(this.memory.got == null){
+            this.memory.got = true;
+        }
         if(this.memory.got && this.store[RESOURCE_ENERGY] == 0) {
             this.memory.got = false;
             var targets = this.room.find(FIND_DROPPED_RESOURCES);
