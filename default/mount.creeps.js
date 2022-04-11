@@ -68,11 +68,14 @@ const creepExtension = {
             if(targets.length > 0) {
                 if(this.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     this.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                    return;
                 }
             }
-            
+            this.parking();
         }else{
-            this.withdrawEnergy();
+            if(!this.withdrawEnergy()){
+                this.parking();
+            }
         }
     },
     withdrawEnergy(){
@@ -148,9 +151,11 @@ const creepExtension = {
                     return;
                 }
             }
-            
+            this.parking();
         }else{
-            this.withdrawEnergy();
+            if(!this.withdrawEnergy()){
+                this.parking();
+            }
         }
     },
     harvestEnergyPro(){
@@ -222,5 +227,20 @@ const creepExtension = {
                 }
             }
         }
+    },
+    parking(){
+        if(this.pos.lookFor(LOOK_FLAGS).length > 0 && this.pos.lookFor(LOOK_FLAGS)[0].color == COLOR_GREY){
+            return;
+        }
+        var targets = this.room.find(FIND_FLAGS, {
+            filter: (flag) => {
+                return flag.color == COLOR_GREY &&
+                       flag.pos.lookFor(LOOK_CREEPS).length == 0;
+            }
+        });
+        if(targets.length > 0){
+            this.moveTo(targets[0].pos);
+        }
+        
     }
 }
