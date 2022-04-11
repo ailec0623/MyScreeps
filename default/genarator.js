@@ -38,7 +38,7 @@ var Genarator = {
                 if(creeps[c].length < config[c][spawns.room.controller.level]['num'] + offset){
                     this.genarator(spawns, c);
                     break;
-                }else if(creeps[c].length > config[c][spawns.room.controller.level]['num']){
+                }else if(creeps[c].length > config[c][spawns.room.controller.level + offset]['num']){
                     creeps[c][0].suicide();
                     console.log('Suicide creep: ' + c);
                 }
