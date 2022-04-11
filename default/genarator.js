@@ -4,12 +4,13 @@ var Genarator = {
     run: function(spawns) {
         var creeps = {
             harvester: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.room == spawns.room),
-            upgrader: _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.room == spawns.room),
-            builder: _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room == spawns.room),
             carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room == spawns.room),
-            fixer: _.filter(Game.creeps, (creep) => creep.memory.role == 'fixer' && creep.room == spawns.room),
             harvesterpro: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvesterpro' && creep.room == spawns.room),
             picker: _.filter(Game.creeps, (creep) => creep.memory.role == 'picker' && creep.room == spawns.room),
+            fixer: _.filter(Game.creeps, (creep) => creep.memory.role == 'fixer' && creep.room == spawns.room),
+            upgrader: _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.room == spawns.room),
+            builder: _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room == spawns.room),
+
         }
         // for(c in creeps){
         //     console.log(c + ': ' + creeps[c].length);
@@ -35,14 +36,19 @@ var Genarator = {
                         offset += config['builder'][spawns.room.controller.level]['num'];
                     }
                 }
-                if(creeps[c].length < config[c][spawns.room.controller.level]['num'] + offset){
-                    this.genarator(spawns, c);
-                    break;
-                }else if(creeps[c].length > config[c][spawns.room.controller.level + offset]['num']){
-                    creeps[c][0].suicide();
-                    console.log('Suicide creep: ' + c);
+                try{
+                    if(creeps[c].length < config[c][spawns.room.controller.level]['num'] + offset){
+                        this.genarator(spawns, c);
+                        break;
+                    }else if(creeps[c].length > config[c][spawns.room.controller.level]['num'] + offset + 1){
+                        creeps[c][0].suicide();
+                        console.log('Suicide creep: ' + c);
+                    }
+    
+                }catch{
+                    console.log(c);
                 }
-
+                
                 if(spawns.room.energyAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod']) ){
                     for(i in creeps[c]){
                         if(creeps[c][i].memory.level < spawns.room.controller.level){
@@ -75,7 +81,7 @@ var Genarator = {
             }
         }
         console.log('Spawning new creep: ' + newName);
-        if(spawns.room.energyAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod'])){
+        if(spawns.room.energyCapacityAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod'])){
             spawns.spawnCreep(config[role][spawns.room.controller.level]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level, energySource: energySource}});
         }else{
             spawns.spawnCreep(config[role][spawns.room.controller.level - 1]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level - 1, energySource: energySource}});
