@@ -21,7 +21,7 @@ var config = {
     },
     builder: {
         1: {
-            num: 2,
+            num: 1,
             mod: [WORK,CARRY,MOVE]
         },
         2: {

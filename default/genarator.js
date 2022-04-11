@@ -24,6 +24,11 @@ var Genarator = {
                 {align: 'left', opacity: 0.8});
         }else{
             for(c in creeps){
+                if(c == 'builder'){
+                    if(spawns.room.find(FIND_MY_CONSTRUCTION_SITES).length == 0){
+                        continue;
+                    }
+                }
                 if(creeps[c].length < config[c][spawns.room.controller.level]['num']){
                     this.genarator(spawns, c);
                     break;

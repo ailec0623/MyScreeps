@@ -222,8 +222,12 @@ const creepExtension = {
             }
         }else{
             if(this.memory.target) {
-                if(this.pickup(Game.getObjectById(this.memory.target.id)) == ERR_NOT_IN_RANGE) {
-                    this.moveTo(Game.getObjectById(this.memory.target.id), {visualizePathStyle: {stroke: '#ffffff'}});
+                var s = Game.getObjectById(this.memory.target.id);
+                if(!s){
+                    this.memory.got = true;
+                }
+                if(this.pickup(s) == ERR_NOT_IN_RANGE) {
+                    this.moveTo(s, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }
@@ -238,13 +242,10 @@ const creepExtension = {
                        flag.pos.lookFor(LOOK_CREEPS).length == 0;
             }
         });
-<<<<<<< HEAD
+
         if(targets.length > 0){
             this.moveTo(targets[0].pos);
         }
-        
-=======
-        this.moveTo(targets[0].pos);
->>>>>>> f7389fddddf52294a79afd9230d939d1b3f1f28c
     }
+
 }
