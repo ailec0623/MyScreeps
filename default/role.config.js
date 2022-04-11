@@ -65,7 +65,7 @@ var config = {
             mod: [CARRY,CARRY,MOVE]
         },
         2: {
-            num: 6,
+            num: 8,
             mod: [CARRY,CARRY,MOVE,MOVE]
         }
     },

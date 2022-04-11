@@ -11,9 +11,9 @@ var Genarator = {
             harvesterpro: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvesterpro' && creep.room == spawns.room),
             picker: _.filter(Game.creeps, (creep) => creep.memory.role == 'picker' && creep.room == spawns.room),
         }
-        for(c in creeps){
-            console.log(c + ': ' + creeps[c].length);
-        }
+        // for(c in creeps){
+        //     console.log(c + ': ' + creeps[c].length);
+        // }
         
         if(spawns.spawning){
             var spawningCreep = Game.creeps[spawns.spawning.name];
@@ -24,12 +24,18 @@ var Genarator = {
                 {align: 'left', opacity: 0.8});
         }else{
             for(c in creeps){
+                var offset = 0;
                 if(c == 'builder'){
                     if(spawns.room.find(FIND_MY_CONSTRUCTION_SITES).length == 0){
                         continue;
                     }
                 }
-                if(creeps[c].length < config[c][spawns.room.controller.level]['num']){
+                if(c == 'upgrader'){
+                    if(spawns.room.find(FIND_MY_CONSTRUCTION_SITES).length == 0){
+                        offset += config['builder'][spawns.room.controller.level]['num'];
+                    }
+                }
+                if(creeps[c].length < config[c][spawns.room.controller.level]['num'] + offset){
                     this.genarator(spawns, c);
                     break;
                 }else if(creeps[c].length > config[c][spawns.room.controller.level]['num']){
@@ -41,6 +47,7 @@ var Genarator = {
                     for(i in creeps[c]){
                         if(creeps[c][i].memory.level < spawns.room.controller.level){
                             creeps[c][i].suicide();
+                            console.log('Update creep: ' + c);
                             this.genarator(spawns, c);
                             return;
                         }
