@@ -6,7 +6,10 @@ var Genarator = {
             harvester: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.room == spawns.room),
             upgrader: _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.room == spawns.room),
             builder: _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room == spawns.room),
-            carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room == spawns.room)
+            carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room == spawns.room),
+            fixer: _.filter(Game.creeps, (creep) => creep.memory.role == 'fixer' && creep.room == spawns.room),
+            harvesterpro: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvesterpro' && creep.room == spawns.room),
+            picker: _.filter(Game.creeps, (creep) => creep.memory.role == 'picker' && creep.room == spawns.room),
         }
         for(c in creeps){
             console.log(c + ': ' + creeps[c].length);
@@ -30,9 +33,9 @@ var Genarator = {
                 }
 
                 if(spawns.room.energyAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod']) ){
-                    for(i in c){
-                        if(c[i].memory.level < spawns.room.controller.level){
-                            i.suicide();
+                    for(i in creeps[c]){
+                        if(creeps[c][i].memory.level < spawns.room.controller.level){
+                            creeps[c][i].suicide();
                             this.genarator(spawns, c);
                             return;
                         }

@@ -5,7 +5,7 @@ var config = {
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 6,
+            num: 0,
             mod: [WORK,WORK,CARRY,MOVE,MOVE]
         }
     },
@@ -15,7 +15,7 @@ var config = {
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 2,
+            num: 1,
             mod: [CARRY,CARRY,WORK,MOVE,MOVE]
         }
     },
@@ -38,7 +38,37 @@ var config = {
             num: 1,
             mod: [CARRY,CARRY,CARRY,MOVE,MOVE]
         }
-    }
+    },
+    fixer: {
+        1: {
+            num: 0,
+            mod: [WORK,CARRY,MOVE]
+        },
+        2: {
+            num: 1,
+            mod: [WORK,CARRY,CARRY,MOVE,MOVE]
+        }
+    },
+    harvesterpro: {
+        1: {
+            num: 0,
+            mod: [WORK,WORK,MOVE]
+        },
+        2: {
+            num: 4,
+            mod: [WORK,WORK,WORK,MOVE]
+        }
+    },
+    picker: {
+        1: {
+            num: 0,
+            mod: [CARRY,CARRY,MOVE]
+        },
+        2: {
+            num: 4,
+            mod: [CARRY,CARRY,MOVE,MOVE]
+        }
+    },
 }
 
 module.exports = config;
