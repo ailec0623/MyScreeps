@@ -15,7 +15,7 @@ var config = {
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 1,
+            num: 2,
             mod: [CARRY,CARRY,WORK,MOVE,MOVE]
         }
     },
@@ -25,7 +25,7 @@ var config = {
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 2,
+            num: 3,
             mod: [WORK,WORK,CARRY,MOVE,MOVE]
         }
     },
