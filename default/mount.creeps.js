@@ -238,9 +238,13 @@ const creepExtension = {
                        flag.pos.lookFor(LOOK_CREEPS).length == 0;
             }
         });
+<<<<<<< HEAD
         if(targets.length > 0){
             this.moveTo(targets[0].pos);
         }
         
+=======
+        this.moveTo(targets[0].pos);
+>>>>>>> f7389fddddf52294a79afd9230d939d1b3f1f28c
     }
 }
