@@ -1,12 +1,12 @@
 var config = {
     harvester: {
         1: {
-            num: 4,
+            num: 6,
             mod: [WORK,CARRY,MOVE]
         },
         2: {
             num: 6,
-            mod: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
+            mod: [WORK,WORK,CARRY,MOVE,MOVE]
         }
     },
     upgrader: {
@@ -15,18 +15,18 @@ var config = {
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 4,
-            mod: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
+            num: 2,
+            mod: [CARRY,CARRY,WORK,MOVE,MOVE]
         }
     },
     builder: {
         1: {
-            num: 3,
+            num: 2,
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 4,
-            mod: [WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
+            num: 2,
+            mod: [WORK,WORK,CARRY,MOVE,MOVE]
         }
     },
     carrier: {
@@ -36,7 +36,7 @@ var config = {
         },
         2: {
             num: 1,
-            mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
+            mod: [CARRY,CARRY,CARRY,MOVE,MOVE]
         }
     }
 }

@@ -69,8 +69,10 @@ const creepExtension = {
                     structure.store.getUsedCapacity(RESOURCE_ENERGY) > 50;
             }
         });
+
         if(targets.length > 0){
             if(this.withdraw(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
+                this.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffaa00'}});
                 return true;
             }
         }

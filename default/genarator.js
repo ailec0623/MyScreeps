@@ -26,11 +26,12 @@ var Genarator = {
                     break;
                 }else if(creeps[c].length > config[c][spawns.room.controller.level]['num']){
                     creeps[c][0].suicide();
+                    console.log('Suicide creep: ' + c);
                 }
 
-                if(spawns.room.energyAvailable == spawns.room.controller.level * 500 - 200){
+                if(spawns.room.energyAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod']) ){
                     for(i in c){
-                        if(i.memory.level < spawns.room.controller.level){
+                        if(c[i].memory.level < spawns.room.controller.level){
                             i.suicide();
                             this.genarator(spawns, c);
                             return;
@@ -59,12 +60,42 @@ var Genarator = {
             }
         }
         console.log('Spawning new creep: ' + newName);
-        if(spawns.room.energyCapacityAvailable == spawns.room.controller.level * 500 - 200){
+        if(spawns.room.energyAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod'])){
             spawns.spawnCreep(config[role][spawns.room.controller.level]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level, energySource: energySource}});
         }else{
-            spawns.spawnCreep(config[role][spawns.room.controller.level - 1]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level, energySource: energySource}});
+            spawns.spawnCreep(config[role][spawns.room.controller.level - 1]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level - 1, energySource: energySource}});
         }
            
+    },
+    calculateCost(mods){
+        var cost = 100;
+        for(m in mods){
+            switch(mods[m]){
+                case CARRY:
+                case MOVE:
+                    cost += 50;
+                    break;
+                case WORK:
+                    cost += 100;
+                    break;
+                case ATTACK:
+                    cost += 80;
+                    break;
+                case RANGED_ATTACK:
+                    cost += 150;
+                    break;
+                case HEAL:
+                    cost += 250;
+                    break;
+                case CLAIM:
+                    cost += 600;
+                    break;
+                case TOUGH:
+                    cost += 10;
+                    break;
+            }
+        }
+        return cost;
     }
 
 }
