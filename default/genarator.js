@@ -24,7 +24,7 @@ var Genarator = {
                 spawns.pos.y, 
                 {align: 'left', opacity: 0.8});
         }else{
-            for(c in creeps){
+            for(let c in creeps){
                 var offset = 0;
                 if(c == 'builder'){
                     if(spawns.room.find(FIND_MY_CONSTRUCTION_SITES).length == 0){
@@ -90,7 +90,7 @@ var Genarator = {
     },
     calculateCost(mods){
         var cost = 100;
-        for(m in mods){
+        for(let m in mods){
             switch(mods[m]){
                 case CARRY:
                 case MOVE:
