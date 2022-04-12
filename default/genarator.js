@@ -12,9 +12,9 @@ var Genarator = {
             builder: _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room == spawns.room),
 
         }
-        // for(c in creeps){
-        //     console.log(c + ': ' + creeps[c].length);
-        // }
+        for(let c in creeps){
+            console.log(c + ': ' + creeps[c].length);
+        }
         
         if(spawns.spawning){
             var spawningCreep = Game.creeps[spawns.spawning.name];
@@ -45,8 +45,8 @@ var Genarator = {
                         console.log('Suicide creep: ' + c);
                     }
     
-                }catch{
-                    console.log(c);
+                }catch(e){
+                    console.log(e.message);
                 }
                 
                 if(spawns.room.energyAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod']) ){

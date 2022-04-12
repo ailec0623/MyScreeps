@@ -1,7 +1,7 @@
 var config = require('role.config')
 
 var Generator = {
-    run: function(spawns) {
+    run: function (spawns) {
         var creeps = {
             worker: _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.room == spawns.room),
             carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room == spawns.room),
@@ -11,32 +11,29 @@ var Generator = {
         // for(c in creeps){
         //     console.log(c + ': ' + creeps[c].length);
         // }
-        
-        if(spawns.spawning){
+
+        if (spawns.spawning) {
             var spawningCreep = Game.creeps[spawns.spawning.name];
             spawns.room.visual.text(
                 '🛠️' + spawningCreep.memory.role,
-                spawns.pos.x + 1, 
-                spawns.pos.y, 
-                {align: 'left', opacity: 0.8});
-        }else{
-            for(c in creeps){
-                try{
-                    if(creeps[c].length < config[c][spawns.room.controller.level]['num']){
-                        this.generator(spawns, c);
-                        break;
-                    }else if(creeps[c].length > config[c][spawns.room.controller.level]['num']){
-                        creeps[c][0].suicide();
-                        console.log('Suicide creep: ' + c);
-                    }
-    
-                }catch{
-                    console.log(c);
+                spawns.pos.x + 1,
+                spawns.pos.y,
+                { align: 'left', opacity: 0.8 });
+        } else {
+            for (var c in creeps) {
+
+                if (creeps[c].length < config[c][spawns.room.controller.level]['num']) {
+                    this.generator(spawns, c);
+                    break;
+                } else if (creeps[c].length > config[c][spawns.room.controller.level]['num']) {
+                    creeps[c][0].suicide();
+                    console.log('Suicide creep: ' + c);
                 }
-                
-                if(spawns.room.energyAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod']) ){
-                    for(i in creeps[c]){
-                        if(creeps[c][i].memory.level < spawns.room.controller.level){
+
+
+                if (spawns.room.energyAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod'])) {
+                    for (i in creeps[c]) {
+                        if (creeps[c][i].memory.level < spawns.room.controller.level) {
                             creeps[c][i].suicide();
                             console.log('Update creep: ' + c);
                             this.generator(spawns, c);
@@ -48,35 +45,20 @@ var Generator = {
         }
 
     },
-    generator: function(spawns, role) {
+    generator: function (spawns, role) {
         var newName = role + Game.time;
-        var energySources = spawns.room.find(FIND_SOURCES, {
-            filter: (source) => {
-                return source.energy > 0;
-            }
-        });
-        var energySource = null;
-        if(energySources.length == 1){
-            energySource = energySources[0];
-        }else if(energySources.length == 2){
-            if(energySources[0].energy < energySources[1].energy){
-                energySource = energySources[1];
-            }else{
-                energySource = energySources[0];
-            }
-        }
         console.log('Spawning new creep: ' + newName);
-        if(spawns.room.energyCapacityAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod'])){
-            spawns.spawnCreep(config[role][spawns.room.controller.level]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level, inTask: false}});
-        }else{
-            spawns.spawnCreep(config[role][spawns.room.controller.level - 1]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level - 1, inTask: false}});
+        if (spawns.room.energyCapacityAvailable >= this.calculateCost(config[role][spawns.room.controller.level]['mod'])) {
+            spawns.spawnCreep(config[role][spawns.room.controller.level]['mod'], newName, { memory: { role: role, level: spawns.room.controller.level, inTask: false } });
+        } else {
+            spawns.spawnCreep(config[role][spawns.room.controller.level - 1]['mod'], newName, { memory: { role: role, level: spawns.room.controller.level - 1, inTask: false } });
         }
-           
+
     },
-    calculateCost(mods){
+    calculateCost(mods) {
         var cost = 100;
-        for(m in mods){
-            switch(mods[m]){
+        for (var m in mods) {
+            switch (mods[m]) {
                 case CARRY:
                 case MOVE:
                     cost += 50;

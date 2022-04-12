@@ -13,7 +13,7 @@ var Releaser = {
             creep_id: null,
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
-            priority = 3
+            priority: 3
         };
         room.memory.tasks.harvesterpro.push(task);
 

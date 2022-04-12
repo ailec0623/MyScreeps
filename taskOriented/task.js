@@ -5,7 +5,7 @@ var Task = {
         if(!room.memory.tasks){
             room.memory.tasks = {};
         }
-        this.generateHarvestProTask();
+        this.generateHarvestProTask(room);
     },
 
     generateHarvestProTask: function(room){
