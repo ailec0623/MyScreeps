@@ -1,15 +1,23 @@
 var config = {
     worker: {
         1: {
-            num: 6,
+            num: 3,
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 0,
+            num: 5,
             mod: [WORK,WORK,CARRY,MOVE,MOVE]
         },
         3: {
-            num: 0,
+            num: 5,
+            mod: [WORK,WORK,CARRY,MOVE,MOVE]
+        },
+        4: {
+            num: 6,
+            mod: [WORK,WORK,CARRY,MOVE,MOVE]
+        },
+        5: {
+            num: 6,
             mod: [WORK,WORK,CARRY,MOVE,MOVE]
         }
     },
@@ -23,14 +31,22 @@ var config = {
             mod: [CARRY,CARRY,CARRY,MOVE,MOVE]
         },
         3: {
-            num: 1,
+            num: 4,
+            mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]
+        },
+        4: {
+            num: 4,
+            mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]
+        },
+        5: {
+            num: 4,
             mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]
         }
     },
     harvesterpro: {
         1: {
-            num: 0,
-            mod: [WORK,WORK,MOVE]
+            num: 4,
+            mod: [WORK,MOVE]
         },
         2: {
             num: 4,

@@ -11,6 +11,10 @@ var config = {
         3: {
             num: 0,
             mod: [WORK,CARRY,MOVE]
+        },
+        4: {
+            num: 0,
+            mod: [WORK,CARRY,MOVE]
         }
     },
     upgrader: {
@@ -23,6 +27,10 @@ var config = {
             mod: [CARRY,CARRY,WORK,MOVE,MOVE]
         },
         3: {
+            num: 1,
+            mod: [CARRY,CARRY,WORK,WORK,MOVE,MOVE]
+        },
+        4: {
             num: 1,
             mod: [CARRY,CARRY,WORK,WORK,MOVE,MOVE]
         }
@@ -39,6 +47,10 @@ var config = {
         3: {
             num: 4,
             mod: [WORK,WORK,CARRY,MOVE,MOVE]
+        },
+        4: {
+            num: 4,
+            mod: [WORK,WORK,CARRY,MOVE,MOVE]
         }
     },
     carrier: {
@@ -53,6 +65,10 @@ var config = {
         3: {
             num: 1,
             mod: [CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
+        },
+        4: {
+            num: 1,
+            mod: [CARRY,CARRY,CARRY,MOVE,MOVE]
         }
     },
     fixer: {
@@ -65,6 +81,10 @@ var config = {
             mod: [WORK,CARRY,CARRY,MOVE,MOVE]
         },
         3: {
+            num: 1,
+            mod: [WORK,CARRY,CARRY,MOVE,MOVE]
+        },
+        4: {
             num: 1,
             mod: [WORK,CARRY,CARRY,MOVE,MOVE]
         }
@@ -81,6 +101,10 @@ var config = {
         3: {
             num: 4,
             mod: [WORK,WORK,WORK,MOVE]
+        },
+        4: {
+            num: 4,
+            mod: [WORK,WORK,WORK,MOVE]
         }
     },
     picker: {
@@ -93,6 +117,10 @@ var config = {
             mod: [CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
         },
         3: {
+            num: 6,
+            mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
+        },
+        4: {
             num: 6,
             mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
         }

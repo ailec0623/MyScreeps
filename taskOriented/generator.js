@@ -3,10 +3,9 @@ var config = require('role.config')
 var Generator = {
     run: function (spawns) {
         var creeps = {
-            worker: _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.room == spawns.room),
+            harvesterpro: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvesterpro' && creep.room == spawns.room),
             carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room == spawns.room),
-            harvesterpro: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvesterpro' && creep.room == spawns.room)
-
+            worker: _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.room == spawns.room)
         };
         // for(c in creeps){
         //     console.log(c + ': ' + creeps[c].length);

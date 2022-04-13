@@ -3,8 +3,8 @@ var config = require('role.config')
 var Genarator = {
     run: function(spawns) {
         var creeps = {
-            harvester: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.room == spawns.room),
             carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room == spawns.room),
+            harvester: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.room == spawns.room),
             harvesterpro: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvesterpro' && creep.room == spawns.room),
             picker: _.filter(Game.creeps, (creep) => creep.memory.role == 'picker' && creep.room == spawns.room),
             fixer: _.filter(Game.creeps, (creep) => creep.memory.role == 'fixer' && creep.room == spawns.room),
@@ -81,7 +81,7 @@ var Genarator = {
             }
         }
         console.log('Spawning new creep: ' + newName);
-        if(spawns.room.energyCapacityAvailable >= this.calculateCost(config[c][spawns.room.controller.level]['mod'])){
+        if(spawns.room.energyCapacityAvailable >= this.calculateCost(config[role][spawns.room.controller.level]['mod'])){
             spawns.spawnCreep(config[role][spawns.room.controller.level]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level, energySource: energySource}});
         }else{
             spawns.spawnCreep(config[role][spawns.room.controller.level - 1]['mod'], newName, {memory: {role: role, level: spawns.room.controller.level - 1, energySource: energySource}});

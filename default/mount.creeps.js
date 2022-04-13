@@ -9,7 +9,7 @@ const creepExtension = {
             this.memory.building = false;
             this.say('🔄 harvest');
 	    }
-	    if(!this.memory.building && this.store.getFreeCapacity() == 0 && build_targets.length > 0) {
+	    if(!this.memory.building && this.store.getFreeCapacity(RESOURCE_ENERGY) == 0 && build_targets.length > 0) {
 	        this.memory.building = true;
 	        this.say('🚧 build');
 	    }
@@ -32,7 +32,7 @@ const creepExtension = {
             this.memory.upgrading = false;
             this.say('🔄 harvest');
 	    }
-	    if(!this.memory.upgrading && this.store.getFreeCapacity() == 0) {
+	    if(!this.memory.upgrading && this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
 	        this.memory.upgrading = true;
 	        this.say('⚡ upgrade');
 	    }
@@ -53,7 +53,7 @@ const creepExtension = {
             this.memory.got = false;
             this.say('🔄 Getting');
 	    }
-	    if(!this.memory.got && this.store.getFreeCapacity() == 0) {
+	    if(!this.memory.got && this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
 	        this.memory.got = true;
 	        this.say('🚧 Putting');
 	    }
@@ -97,7 +97,7 @@ const creepExtension = {
     harvestEnergy(){
         var targetsOrder = [STRUCTURE_CONTAINER, STRUCTURE_EXTENSION, STRUCTURE_SPAWN];
         var targets = [];
-        if(this.store.getFreeCapacity() > 0) {
+        if(this.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
     
             if(this.memory.energySource){
                 var source = Game.getObjectById(this.memory.energySource.id)
@@ -135,7 +135,7 @@ const creepExtension = {
             this.memory.fixing = false;
             this.say('🔄 Getting Energy');
 	    }
-	    if(!this.memory.fixing && this.store.getFreeCapacity() == 0) {
+	    if(!this.memory.fixing && this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
 	        this.memory.fixing = true;
 	        this.say('🚧 Fixing');
 	    }
@@ -202,7 +202,7 @@ const creepExtension = {
             this.memory.target = target;
             this.say('🔄 Getting');
 	    }
-	    if(!this.memory.got && this.store.getFreeCapacity() == 0) {
+	    if(!this.memory.got && this.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
 	        this.memory.got = true;
 	        this.say('🚧 Putting');
 	    }
@@ -211,6 +211,7 @@ const creepExtension = {
             var targets = this.room.find(FIND_FLAGS, {
                 filter: (flag) => {
                     return flag.color == COLOR_WHITE &&
+                    flag.pos.lookFor(LOOK_STRUCTURES).length > 0 &&
                     flag.pos.lookFor(LOOK_STRUCTURES)[0].store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                 }
             });
