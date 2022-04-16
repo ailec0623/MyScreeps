@@ -5,20 +5,26 @@ var config = {
             mod: [WORK,CARRY,MOVE]
         },
         2: {
-            num: 5,
-            mod: [WORK,WORK,CARRY,MOVE,MOVE]
+            num: 6,
+            mod: [WORK,WORK,CARRY,MOVE]
         },
         3: {
             num: 5,
-            mod: [WORK,WORK,CARRY,MOVE,MOVE]
+            mod: [WORK,WORK,WORK,
+                CARRY,CARRY,CARRY,CARRY,
+                MOVE,MOVE,MOVE]
         },
         4: {
-            num: 6,
-            mod: [WORK,WORK,CARRY,MOVE,MOVE]
+            num: 4,
+            mod: [WORK,WORK,WORK
+                ,CARRY,CARRY,CARRY,CARRY,
+                MOVE,MOVE,MOVE]
         },
         5: {
-            num: 6,
-            mod: [WORK,WORK,CARRY,MOVE,MOVE]
+            num: 4,
+            mod: [WORK,WORK,WORK,
+                CARRY,CARRY,CARRY,CARRY,
+                MOVE,MOVE,MOVE]
         }
     },
     carrier: {
@@ -27,34 +33,42 @@ var config = {
             mod: [CARRY,CARRY,MOVE]
         },
         2: {
-            num: 4,
-            mod: [CARRY,CARRY,CARRY,MOVE,MOVE]
+            num: 1,
+            mod: [CARRY,CARRY,CARRY,MOVE]
         },
         3: {
-            num: 4,
-            mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]
+            num: 2,
+            mod: [CARRY,CARRY,CARRY,MOVE]
         },
         4: {
-            num: 4,
-            mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]
+            num: 3,
+            mod: [CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
         },
         5: {
-            num: 4,
-            mod: [CARRY,CARRY,CARRY,CARRY,MOVE,MOVE]
+            num: 3,
+            mod: [CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE]
         }
     },
     harvesterpro: {
         1: {
-            num: 4,
+            num: 3,
             mod: [WORK,MOVE]
         },
         2: {
-            num: 4,
-            mod: [WORK,WORK,WORK,MOVE]
+            num: 3,
+            mod: [WORK,WORK,MOVE]
         },
         3: {
-            num: 4,
-            mod: [WORK,WORK,WORK,MOVE]
+            num: 2,
+            mod: [WORK,WORK,WORK,WORK,WORK,WORK,MOVE,MOVE]
+        },
+        4: {
+            num: 2,
+            mod: [WORK,WORK,WORK,WORK,WORK,WORK,MOVE,MOVE]
+        },
+        5: {
+            num: 2,
+            mod: [WORK,WORK,WORK,WORK,WORK,WORK,MOVE,MOVE]
         }
     },
 }

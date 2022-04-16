@@ -5,6 +5,7 @@ var Generator = {
         var creeps = {
             harvesterpro: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvesterpro' && creep.room == spawns.room),
             carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room == spawns.room),
+           
             worker: _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.room == spawns.room)
         };
         // for(c in creeps){
@@ -20,7 +21,6 @@ var Generator = {
                 { align: 'left', opacity: 0.8 });
         } else {
             for (var c in creeps) {
-
                 if (creeps[c].length < config[c][spawns.room.controller.level]['num']) {
                     this.generator(spawns, c);
                     break;
@@ -55,7 +55,7 @@ var Generator = {
 
     },
     calculateCost(mods) {
-        var cost = 100;
+        var cost = 0;
         for (var m in mods) {
             switch (mods[m]) {
                 case CARRY:

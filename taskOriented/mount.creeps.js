@@ -31,6 +31,14 @@ const creepExtension = {
                             break;
                         }
                     }
+                    for (var i in this.room.memory.tasks.getenergy) {
+                        if (!this.room.memory.tasks.getenergy[i].creepId && !this.memory.inTask) {
+                            this.room.memory.tasks.getenergy[i].creepId = this.id;
+                            this.memory.task = this.room.memory.tasks.getenergy[i];
+                            this.memory.inTask = true;
+                            break;
+                        }
+                    }
                 } else {
                     for (var i in this.room.memory.tasks.delivery) {
                         if (!this.room.memory.tasks.delivery[i].creepId && !this.memory.inTask) {
@@ -102,6 +110,18 @@ const creepExtension = {
             }
         } else {
             this.say('😪');
+            if(this.pos.lookFor(LOOK_FLAGS).length > 0 && this.pos.lookFor(LOOK_FLAGS)[0].color == COLOR_GREY){
+                return;
+            }
+            var targets = this.room.find(FIND_FLAGS, {
+                filter: (flag) => {
+                    return flag.color == COLOR_GREY &&
+                           flag.pos.lookFor(LOOK_CREEPS).length == 0;
+                }
+            });
+            if(targets.length > 0){
+                this.moveTo(targets[0].pos);
+            }
         }
     },
     reviewTask: function () {
@@ -126,7 +146,7 @@ const creepExtension = {
                         source = position.lookFor(LOOK_RESOURCES)[0];
                     } else if (position.lookFor(LOOK_STRUCTURES).length > 0) {
                         source = position.lookFor(LOOK_STRUCTURES)[0];
-                        if (source.store.getUsedCapacity(RESOURCE_ENERGY) < 100) {
+                        if (!source.store || source.store.getUsedCapacity(RESOURCE_ENERGY) < 100) {
                             this.memory.inTask = false;
                             for (let i in this.room.memory.tasks.pickup) {
                                 if (this.room.memory.tasks.pickup[i].creepId == this.id) {
@@ -169,11 +189,8 @@ const creepExtension = {
                     // if already got resource from source, stop
                     if (this.store.getUsedCapacity() > 0) {
                         this.memory.inTask = false;
-                        console.log(1);
                         for (let i in this.room.memory.tasks.getenergy) {
-                            console.log(2);
                             if (this.room.memory.tasks.getenergy[i].creepId == this.id) {
-                                console.log(i);
                                 this.room.memory.tasks.getenergy.splice(i, 1);
                                 break;
                             }
@@ -225,7 +242,7 @@ const creepExtension = {
                     }
                     // if finished the task
                     var target = this.room.lookForAt(LOOK_CONSTRUCTION_SITES, this.memory.task.targetPosition.x, this.memory.task.targetPosition.y)[0];
-                    if(target.length == 0) {
+                    if(!target) {
                         this.memory.inTask = false;
                         for (var i in this.room.memory.tasks.build) {
                             if (this.room.memory.tasks.build[i].creepId == this.id) {
@@ -237,6 +254,7 @@ const creepExtension = {
                     break;
                 case 'upgrade':
                     // if run out of energy
+                    console.log
                     if (this.store.getUsedCapacity() == 0) {
                         this.memory.inTask = false;
                         for (var i in this.room.memory.tasks.upgrade) {
@@ -252,5 +270,4 @@ const creepExtension = {
             }
         }
     },
-
 }

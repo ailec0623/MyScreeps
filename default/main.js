@@ -18,4 +18,6 @@ module.exports.loop = function () {
     }
     Genarator.run(Game.spawns['Spawn1']);
     Creeps.run();
+    Memory.test = [{p: 4}, {p: 2},{p: 5},{p: 1},{p: 9},{p: 7},] 
+    Memory.test.sort((a,b) => {return a.p > b.p;});
 }

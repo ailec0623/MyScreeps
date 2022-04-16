@@ -208,11 +208,10 @@ const creepExtension = {
 	    }
 
         if(this.memory.got){    
-            var targets = this.room.find(FIND_FLAGS, {
-                filter: (flag) => {
-                    return flag.color == COLOR_WHITE &&
-                    flag.pos.lookFor(LOOK_STRUCTURES).length > 0 &&
-                    flag.pos.lookFor(LOOK_STRUCTURES)[0].store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+            var targets = this.room.find(FIND_STRUCTURES, {
+                filter: (s) => {
+                    return (!s.pos.lookFor(LOOK_FLAGS) || s.pos.lookFor(LOOK_FLAGS)[0].color != COLOR_RED) &&
+                    s.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                 }
             });
             

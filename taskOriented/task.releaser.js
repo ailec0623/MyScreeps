@@ -1,89 +1,98 @@
 var Releaser = {
-    releaseTask: function(room, taskType, sourcePosition, targetPosition, releaserId){
-        switch(taskType){
-            case 'harvestpro': this.releaseHarvestProTask(room, sourcePosition, targetPosition, releaserId); break;
-            case 'pickup': this.releasePickUpTask(room, sourcePosition, targetPosition, releaserId); break;
-            case 'delivery': this.releaseDeliveryTask(room, sourcePosition, targetPosition, releaserId); break;
-            case 'getenergy': this.releaseGetenergyTask(room, sourcePosition, targetPosition, releaserId); break;
-            case 'repair': this.releaseRepairTask(room, sourcePosition, targetPosition, releaserId); break;
-            case 'build': this.releaseBuildTask(room, sourcePosition, targetPosition, releaserId); break;
-            case 'upgrade': this.releaseUpgradeTask(room, sourcePosition, targetPosition, releaserId); break;
-        }
-    },
-    releaseHarvestProTask(room, sourcePosition, targetPosition, releaserId){
-        console.log(66);
+    releaseTask: function(room, taskType, sourcePosition, targetPosition, releaserId, priority){
+        // switch(taskType){
+        //     case 'harvestpro': this.releaseHarvestProTask(room, sourcePosition, targetPosition, releaserId, priority); break;
+        //     case 'pickup': this.releasePickUpTask(room, sourcePosition, targetPosition, releaserId, priority); break;
+        //     case 'delivery': this.releaseDeliveryTask(room, sourcePosition, targetPosition, releaserId, priority); break;
+        //     case 'getenergy': this.releaseGetenergyTask(room, sourcePosition, targetPosition, releaserId, priority); break;
+        //     case 'repair': this.releaseRepairTask(room, sourcePosition, targetPosition, releaserId, priority); break;
+        //     case 'build': this.releaseBuildTask(room, sourcePosition, targetPosition, releaserId, priority); break;
+        //     case 'upgrade': this.releaseUpgradeTask(room, sourcePosition, targetPosition, releaserId, priority); break;
+        // }
+        // return;
         const task = {
-            type: 'harvestpro',
-            creepId: "",
+            type: taskType,
+            creepId: null,
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
-            priority: 3,
+            priority: priority,
+            releaserId: releaserId
+        };
+        Memory.rooms[room.name].tasks[taskType].push(task);
+    },
+    releaseHarvestProTask(room, sourcePosition, targetPosition, releaserId, priority){
+        const task = {
+            type: 'harvestpro',
+            creepId: null,
+            sourcePosition: sourcePosition,
+            targetPosition: targetPosition,
+            priority: priority,
             releaserId: releaserId
         };
         Memory.rooms[room.name].tasks.harvestpro.push(task);
     },
-    releasePickUpTask(room, sourcePosition, targetPosition, releaserId){
+    releasePickUpTask(room, sourcePosition, targetPosition, releaserId, priority){
         var task = {
             type: 'pickup',
-            creepId: "",
+            creepId: null,
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
-            priority: 3,
+            priority: priority,
             releaserId: releaserId
         };
         Memory.rooms[room.name].tasks.pickup.push(task);
     },
-    releaseDeliveryTask(room, sourcePosition, targetPosition, releaserId){
+    releaseDeliveryTask(room, sourcePosition, targetPosition, releaserId, priority){
         var task = {
             type: 'delivery',
-            creepId: "",
+            creepId: null,
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
-            priority: 3,
+            priority: priority,
             releaserId: releaserId
         };
         Memory.rooms[room.name].tasks.delivery.push(task);
     },
-    releaseGetenergyTask(room, sourcePosition, targetPosition, releaserId){
+    releaseGetenergyTask(room, sourcePosition, targetPosition, releaserId, priority){
         var task = {
             type: 'getenergy',
-            creepId: "",
+            creepId: null,
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
-            priority: 3,
+            priority: priority,
             releaserId: releaserId
         };
         Memory.rooms[room.name].tasks.getenergy.push(task);
     },
-    releaseRepairTask(room, sourcePosition, targetPosition, releaserId){
+    releaseRepairTask(room, sourcePosition, targetPosition, releaserId, priority){
         var task = {
             type: 'repair',
-            creepId: "",
+            creepId: null,
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
-            priority: 3,
+            priority: priority,
             releaserId: releaserId
         };
         Memory.rooms[room.name].tasks.repair.push(task);
     },
-    releaseBuildTask(room, sourcePosition, targetPosition, releaserId){
+    releaseBuildTask(room, sourcePosition, targetPosition, releaserId, priority){
         var task = {
             type: 'build',
-            creepId: "",
+            creepId: null,
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
-            priority: 3,
+            priority: priority,
             releaserId: releaserId
         };
         Memory.rooms[room.name].tasks.build.push(task);
     },
-    releaseUpgradeTask(room, sourcePosition, targetPosition, releaserId){
+    releaseUpgradeTask(room, sourcePosition, targetPosition, releaserId, priority){
         var task = {
             type: 'upgrade',
-            creepId: "",
+            creepId: null,
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
-            priority: 3,
+            priority: priority,
             releaserId: releaserId
         };
         Memory.rooms[room.name].tasks.upgrade.push(task);

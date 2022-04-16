@@ -1,8 +1,9 @@
 var Behavior = {
     harvestPro: function(creep, task){
-        var target = creep.room.lookForAt(LOOK_SOURCES, task.targetPosition.x, task.targetPosition.y)[0];
-        if(creep.harvest(target) == ERR_NOT_IN_RANGE) {
+        if(creep.pos.x != task.sourcePosition.x || creep.pos.y != task.sourcePosition.y){
             creep.moveTo(task.sourcePosition.x, task.sourcePosition.y);
+        }else{
+            creep.harvest(creep.room.lookForAt(LOOK_SOURCES, task.targetPosition.x, task.targetPosition.y)[0]);
         }
     },
     pickUp: function(creep, task){
