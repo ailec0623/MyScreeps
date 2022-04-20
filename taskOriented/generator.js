@@ -7,6 +7,8 @@ var Generator = {
             carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
             worker: _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
             reserver: _.filter(Game.creeps, (creep) => creep.memory.role == 'reserver' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
+            guard: _.filter(Game.creeps, (creep) => creep.memory.role == 'guard' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
+        
         };
         // for(c in creeps){
         //     console.log(c + ': ' + creeps[c].length);
@@ -29,6 +31,18 @@ var Generator = {
                         desiredNum = redFlags.length;
                     }else if(c == 'reserver'){
                         desiredNum = spawns.room.memory.extension.length;
+                    }else if(c == 'guard'){
+                        let guardTasks = [];
+                        if(spawns.room.memory.extension){
+                            for(let r in spawns.room.memory.extension){
+                                try{
+                                    guardTasks = guardTasks.concat(Memory.rooms[spawns.room.memory.extension[r]].tasks.guard);
+                                }catch(e){
+
+                                }
+                            }
+                        }
+                        desiredNum = guardTasks.length;
                     }
                 }catch(e){
 

@@ -30,6 +30,7 @@ const creepExtension = {
                 }
                 break;
             case 'carrier':
+
                 if (this.store[RESOURCE_ENERGY] == 0) {
                     let pickupTasks = Game.rooms[this.memory.room].memory.tasks.pickup;
                     if(Game.rooms[this.memory.room].memory.extension){
@@ -59,6 +60,7 @@ const creepExtension = {
                         }
                     }
                 } else {
+                    
                     Game.rooms[this.memory.room].memory.tasks.delivery.sort((a,b) => {return a.priority > b.priority;});
                     for (var i in Game.rooms[this.memory.room].memory.tasks.delivery) {
                         if (!Game.rooms[this.memory.room].memory.tasks.delivery[i].creepId && !this.memory.inTask) {
@@ -89,7 +91,6 @@ const creepExtension = {
                         }
                     }
                 } else {
-
                     let repairTasks = Game.rooms[this.memory.room].memory.tasks.repair;
                     if(Game.rooms[this.memory.room].memory.extension){
                         for(let r in Game.rooms[this.memory.room].memory.extension){
@@ -144,7 +145,7 @@ const creepExtension = {
                 if(Game.rooms[this.memory.room].memory.extension){
                     for(let r in Game.rooms[this.memory.room].memory.extension){
                         try{
-                            reserveTasks = reserveTasks.concat(Game.rooms[Game.rooms[this.memory.room].memory.extension[r]].memory.tasks.reserve);
+                            reserveTasks = reserveTasks.concat(Memory.rooms[Game.rooms[this.memory.room].memory.extension[r]].tasks.reserve);
                         }catch(e){
 
                         }
@@ -159,6 +160,26 @@ const creepExtension = {
                     }
                 }
                 break;
+            case 'guard':
+                let guardTasks = [];
+                if(Game.rooms[this.memory.room].memory.extension){
+                    for(let r in Game.rooms[this.memory.room].memory.extension){
+                        try{
+                            guardTasks = guardTasks.concat(Memory.rooms[Game.rooms[this.memory.room].memory.extension[r]].tasks.guard);
+                        }catch(e){
+
+                        }
+                    }
+                }
+                for (var i in guardTasks) {
+                    if (!guardTasks[i].creepId && !this.memory.inTask) {
+                        guardTasks[i].creepId = this.id;
+                        this.memory.task = guardTasks[i];
+                        this.memory.inTask = true;
+                        break;
+                    }
+                }
+                break;
         }
     },
     operate: function () {
@@ -167,8 +188,13 @@ const creepExtension = {
         }
         if (this.memory.inTask) {
             // if(this.memory.role == 'm'){
-            //     this.moveTo(new RoomPosition(13, 2, 'E41N23'));
+            //     this.moveTo(new RoomPosition(46, 3, 'E41N23'));
             //     return;
+            // }
+            // if(this.memory.role == 'a'){
+            //     if(this.attack(Game.getObjectById('625f953b9e00394955b0817c')) == ERR_NOT_IN_RANGE){
+            //         this.moveTo(Game.getObjectById('625f953b9e00394955b0817c'));
+            //     }
             // }
             // if(this.memory.role == 'claimer'){
             //     var room = Game.rooms['E41N22'];
@@ -211,6 +237,7 @@ const creepExtension = {
                 case 'build': Behavior.build(this, this.memory.task); break;
                 case 'upgrade': Behavior.upgrade(this, this.memory.task); break;
                 case 'reserve': Behavior.reserve(this, this.memory.task); break;
+                case 'guard': Behavior.guard(this, this.memory.task); break;
             }
         } else {
             this.say('😪');
@@ -358,7 +385,8 @@ const creepExtension = {
                         }
                     }
                     break;
-                case 'reverse':break;
+                case 'reverse': break;
+                case 'guard': break;
                 default:
                     break;
             }

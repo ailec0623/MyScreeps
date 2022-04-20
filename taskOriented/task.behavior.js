@@ -4,7 +4,7 @@ var Behavior = {
         if(creep.room.name != task.sourcePosition.roomName || creep.pos.x != task.sourcePosition.x || creep.pos.y != task.sourcePosition.y){
             creep.moveTo(new RoomPosition(task.sourcePosition.x, task.sourcePosition.y, task.sourcePosition.roomName), {reusePath: 50});
         }else{
-            creep.harvest(Game.rooms[task.targetPosition.roomName].lookForAt(LOOK_SOURCES, task.targetPosition.x, task.targetPosition.y)[0]);
+            creep.harvest(Game.getObjectById(task.releaserId));
         }
     },
     pickUp: function(creep, task){
@@ -69,8 +69,16 @@ var Behavior = {
         //         creep.moveTo(target);
         //     }
         // }
+
         if(creep.reserveController(target) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(target, {reusePath: 50});
+            
+            creep.moveTo(target,{reusePath: 50});
+        }
+    },
+    guard: function(creep, task){
+        var target = Game.getObjectById(task.releaserId);
+        if(creep.attack(target) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(target);
         }
     },
 }
