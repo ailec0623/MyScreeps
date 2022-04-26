@@ -3,12 +3,11 @@ var config = require('role.config')
 var Generator = {
     run: function (spawns) {
         var creeps = {
+            guard: _.filter(Game.creeps, (creep) => creep.memory.role == 'guard' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
             harvesterpro: _.filter(Game.creeps, (creep) => creep.memory.role == 'harvesterpro' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
             carrier: _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
             worker: _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
             reserver: _.filter(Game.creeps, (creep) => creep.memory.role == 'reserver' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
-            guard: _.filter(Game.creeps, (creep) => creep.memory.role == 'guard' && (creep.room == spawns.room || spawns.room.memory.extension.some((r) => r == creep.room.name))),
-        
         };
         // for(c in creeps){
         //     console.log(c + ': ' + creeps[c].length);
@@ -29,8 +28,21 @@ var Generator = {
                     if(c == 'harvesterpro'){
                         let redFlags = _.filter(Game.flags, (flag) => flag.color == COLOR_RED && (flag.room == spawns.room || spawns.room.memory.extension.some((r) => r == flag.room.name)));
                         desiredNum = redFlags.length;
+                    }else if(c == 'carrier'){
+                        let redFlags = _.filter(Game.flags, (flag) => flag.color == COLOR_RED && (flag.room == spawns.room || spawns.room.memory.extension.some((r) => r == flag.room.name)));
+                        desiredNum = redFlags.length + spawns.room.memory.extension.length;
                     }else if(c == 'reserver'){
-                        desiredNum = spawns.room.memory.extension.length;
+                        if(spawns.room.memory.extension){
+                            for(let r in spawns.room.memory.extension){
+                                try{
+                                    if(Memory.rooms[spawns.room.memory.extension[r]].tasks.reserve.length > 0){
+                                            desiredNum += 1;
+                                    }
+                                }catch(e){
+                                    
+                                }
+                            }
+                        }
                     }else if(c == 'guard'){
                         let guardTasks = [];
                         if(spawns.room.memory.extension){
@@ -43,6 +55,10 @@ var Generator = {
                             }
                         }
                         desiredNum = guardTasks.length;
+                    }else if(c == 'worker'){
+                        if(spawns.room.storage.store.getUsedCapacity(RESOURCE_ENERGY) > 400000){
+                            desiredNum += 2;
+                        }
                     }
                 }catch(e){
 

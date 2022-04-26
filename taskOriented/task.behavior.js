@@ -71,14 +71,18 @@ var Behavior = {
         // }
 
         if(creep.reserveController(target) == ERR_NOT_IN_RANGE) {
-            
-            creep.moveTo(target,{reusePath: 50});
+            if(creep.moveTo(target,{reusePath: 50}) != 0){
+                creep.moveTo(new RoomPosition(task.sourcePosition.x, task.sourcePosition.y, task.sourcePosition.roomName), {reusePath: 50});
+            }
         }
     },
     guard: function(creep, task){
         var target = Game.getObjectById(task.releaserId);
-        if(creep.attack(target) == ERR_NOT_IN_RANGE) {
+        var state = creep.attack(target);
+        if(state == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
+        }else if(state == ERR_INVALID_TARGET){
+            creep.moveTo(new RoomPosition(task.sourcePosition.x, task.sourcePosition.y, task.sourcePosition.roomName), {reusePath: 50});
         }
     },
 }

@@ -28,23 +28,33 @@ var Flag = {
         }
     },
     pickupTasks: function(f, room){
+        var target1 = null;
+        var target2 = null;
         var target = null;
         var amount = 0;
         try{
-            target = f.pos.lookFor(LOOK_STRUCTURES, {
+            target1 = f.pos.lookFor(LOOK_RESOURCES)[0];
+            amount += target1.amount;
+        }catch(e){
+        }
+        try{
+            target2 = f.pos.lookFor(LOOK_STRUCTURES, {
                 filter: (s) => {return s.structureType == STRUCTURE_CONTAINER;}
             })[0];
-            amount = target.store.getUsedCapacity(RESOURCE_ENERGY);
-        }catch(e){
-            try{
-                target = f.pos.lookFor(LOOK_RESOURCES)[0];
-                amount = target.amount;
-            }
-            catch{
-                return;
+            amount += target2.store.getUsedCapacity(RESOURCE_ENERGY);
+            if(target2.store.getUsedCapacity(RESOURCE_ENERGY) >= 1000){
+                target = target2;
             }
         }
-
+        catch{
+        }
+        if(!target1 && !target2){
+            return;
+        }
+        if(!target){
+            target = target1?target1:target2;
+        }
+        
         var haveTask = 0;
         for (var t in room.memory.tasks.pickup) {
             if (room.memory.tasks.pickup[t].releaserId == target.id) {
@@ -53,7 +63,7 @@ var Flag = {
         }
 
         if (haveTask < 2){
-            Releaser.releaseTask(room, 'pickup', target.pos, target.pos, target.id, 100 - (amount / 50));
+            Releaser.releaseTask(room, 'pickup', f.pos, f.pos, target.id, 100 - (amount / 50));
         }
     }
 }

@@ -18,11 +18,18 @@ var Tower = {
     repairStructures: function(tower){
         var targets = tower.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return structure.hits < structure.hitsMax && structure.structureType != STRUCTURE_WALL;
+                return structure.hits < structure.hitsMax;
             }
         });
-        if(targets.length > 0){
-            tower.repair(targets[0]);
+        var target = null;
+        for(let i in targets){
+            if(targets[i].hits < 50000){
+                target = targets[i];
+                break;
+            }
+        }
+        if(target){
+            tower.repair(target);
         }
     },
 }

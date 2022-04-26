@@ -10,11 +10,15 @@ const creepExtension = {
         }
         switch (this.memory.role) {
             case 'harvesterpro':
-                let harvestproTasks = Game.rooms[this.memory.room].memory.tasks.harvestpro;
-                if(Game.rooms[this.memory.room].memory.extension){
-                    for(let r in Game.rooms[this.memory.room].memory.extension){
+                let harvestproTasks = Memory.rooms[this.memory.room].tasks.harvestpro;
+                if(Memory.rooms[this.memory.room].extension){
+                    for(let r in Memory.rooms[this.memory.room].extension){
+                        if(Memory.rooms[Memory.rooms[this.memory.room].extension[r]].tasks.guard.length > 0){
+                            continue;
+                        }
+
                         try{
-                            harvestproTasks = harvestproTasks.concat(Memory.rooms[Game.rooms[this.memory.room].memory.extension[r]].tasks.harvestpro);
+                            harvestproTasks = harvestproTasks.concat(Memory.rooms[Memory.rooms[this.memory.room].extension[r]].tasks.harvestpro);
                         }catch(e){
 
                         }
@@ -32,17 +36,25 @@ const creepExtension = {
             case 'carrier':
 
                 if (this.store[RESOURCE_ENERGY] == 0) {
-                    let pickupTasks = Game.rooms[this.memory.room].memory.tasks.pickup;
-                    if(Game.rooms[this.memory.room].memory.extension){
-                        for(let r in Game.rooms[this.memory.room].memory.extension){
-                            try{
-                                pickupTasks = pickupTasks.concat(Game.rooms[Game.rooms[this.memory.room].memory.extension[r]].memory.tasks.pickup);
-                            }catch(e){
-    
+                    let pickupTasks = Memory.rooms[this.memory.room].tasks.pickup;
+                    if(pickupTasks[0] && pickupTasks[0].priority < 70){
+
+                    }else{
+                        if(Memory.rooms[this.memory.room].extension){
+                            for(let r in Memory.rooms[this.memory.room].extension){
+                                if(Memory.rooms[Memory.rooms[this.memory.room].extension[r]].tasks.guard.length > 0){
+                                    continue;
+                                }
+                                try{
+                                    pickupTasks = pickupTasks.concat(Game.rooms[Memory.rooms[this.memory.room].extension[r]].memory.tasks.pickup);
+                                }catch(e){
+        
+                                }
                             }
                         }
+                        pickupTasks.sort((a,b) => a.priority - b.priority);
                     }
-                    pickupTasks.sort((a,b) => {return a.priority > b.priority;});
+                    
                     for (var i in pickupTasks) {
                         if (!pickupTasks[i].creepId && !this.memory.inTask) {
                             pickupTasks[i].creepId = this.id;
@@ -51,21 +63,21 @@ const creepExtension = {
                             break;
                         }
                     }
-                    for (var i in Game.rooms[this.memory.room].memory.tasks.getenergy) {
-                        if (!Game.rooms[this.memory.room].memory.tasks.getenergy[i].creepId && !this.memory.inTask) {
-                            Game.rooms[this.memory.room].memory.tasks.getenergy[i].creepId = this.id;
-                            this.memory.task = Game.rooms[this.memory.room].memory.tasks.getenergy[i];
+                    for (var i in Memory.rooms[this.memory.room].tasks.getenergy) {
+                        if (!Memory.rooms[this.memory.room].tasks.getenergy[i].creepId && !this.memory.inTask) {
+                            Memory.rooms[this.memory.room].tasks.getenergy[i].creepId = this.id;
+                            this.memory.task = Memory.rooms[this.memory.room].tasks.getenergy[i];
                             this.memory.inTask = true;
                             break;
                         }
                     }
                 } else {
                     
-                    Game.rooms[this.memory.room].memory.tasks.delivery.sort((a,b) => {return a.priority > b.priority;});
-                    for (var i in Game.rooms[this.memory.room].memory.tasks.delivery) {
-                        if (!Game.rooms[this.memory.room].memory.tasks.delivery[i].creepId && !this.memory.inTask) {
-                            Game.rooms[this.memory.room].memory.tasks.delivery[i].creepId = this.id;
-                            this.memory.task = Game.rooms[this.memory.room].memory.tasks.delivery[i];
+                    //Memory.rooms[this.memory.room].tasks.delivery.sort((a,b) =>  a.priority - b.priority);
+                    for (var i in Memory.rooms[this.memory.room].tasks.delivery) {
+                        if (!Memory.rooms[this.memory.room].tasks.delivery[i].creepId && !this.memory.inTask) {
+                            Memory.rooms[this.memory.room].tasks.delivery[i].creepId = this.id;
+                            this.memory.task = Memory.rooms[this.memory.room].tasks.delivery[i];
                             this.memory.inTask = true;
                             break;
                         }
@@ -74,28 +86,41 @@ const creepExtension = {
                 break;
             case 'worker':
                 if (this.store[RESOURCE_ENERGY] == 0) {
-                    for (var i in Game.rooms[this.memory.room].memory.tasks.getenergy) {
-                        if (!Game.rooms[this.memory.room].memory.tasks.getenergy[i].creepId && !this.memory.inTask) {
-                            Game.rooms[this.memory.room].memory.tasks.getenergy[i].creepId = this.id;
-                            this.memory.task = Game.rooms[this.memory.room].memory.tasks.getenergy[i];
+                    for (var i in Memory.rooms[this.memory.room].tasks.getenergy) {
+                        if (!Memory.rooms[this.memory.room].tasks.getenergy[i].creepId && !this.memory.inTask) {
+                            Memory.rooms[this.memory.room].tasks.getenergy[i].creepId = this.id;
+                            this.memory.task = Memory.rooms[this.memory.room].tasks.getenergy[i];
                             this.memory.inTask = true;
                             break;
                         }
                     }
-                    for (var i in Game.rooms[this.memory.room].memory.tasks.pickup) {
-                        if (!Game.rooms[this.memory.room].memory.tasks.pickup[i].creepId && !this.memory.inTask) {
-                            Game.rooms[this.memory.room].memory.tasks.pickup[i].creepId = this.id;
-                            this.memory.task = Game.rooms[this.memory.room].memory.tasks.pickup[i];
+                    for (var i in Memory.rooms[this.memory.room].tasks.pickup) {
+                        if (!Memory.rooms[this.memory.room].tasks.pickup[i].creepId && !this.memory.inTask) {
+                            Memory.rooms[this.memory.room].tasks.pickup[i].creepId = this.id;
+                            this.memory.task = Memory.rooms[this.memory.room].tasks.pickup[i];
                             this.memory.inTask = true;
                             break;
                         }
                     }
                 } else {
-                    let repairTasks = Game.rooms[this.memory.room].memory.tasks.repair;
-                    if(Game.rooms[this.memory.room].memory.extension){
-                        for(let r in Game.rooms[this.memory.room].memory.extension){
+                    // Memory.rooms[this.memory.room].tasks.delivery.sort((a,b) =>  a.priority - b.priority);
+                    // for (var i in Memory.rooms[this.memory.room].tasks.delivery) {
+                    //     console.log(Memory.rooms[this.memory.room].tasks.delivery[i].priority)
+                    //     if(Memory.rooms[this.memory.room].tasks.delivery[i].priority == 4){
+                    //         continue;
+                    //     }
+                    //     if (!Memory.rooms[this.memory.room].tasks.delivery[i].creepId && !this.memory.inTask) {
+                    //         Memory.rooms[this.memory.room].tasks.delivery[i].creepId = this.id;
+                    //         this.memory.task = Memory.rooms[this.memory.room].tasks.delivery[i];
+                    //         this.memory.inTask = true;
+                    //         break;
+                    //     }
+                    // }
+                    let repairTasks = Memory.rooms[this.memory.room].tasks.repair;
+                    if(Memory.rooms[this.memory.room].extension){
+                        for(let r in Memory.rooms[this.memory.room].extension){
                             try{
-                                repairTasks = repairTasks.concat(Game.rooms[Game.rooms[this.memory.room].memory.extension[r]].memory.tasks.repair);
+                                repairTasks = repairTasks.concat(Game.rooms[Memory.rooms[this.memory.room].extension[r]].memory.tasks.repair);
                             }catch(e){
 
                             }
@@ -111,11 +136,11 @@ const creepExtension = {
                         }
                     }
                     
-                    let buildTasks = Game.rooms[this.memory.room].memory.tasks.build;
-                    if(Game.rooms[this.memory.room].memory.extension){
-                        for(let r in Game.rooms[this.memory.room].memory.extension){
+                    let buildTasks = Memory.rooms[this.memory.room].tasks.build;
+                    if(Memory.rooms[this.memory.room].extension){
+                        for(let r in Memory.rooms[this.memory.room].extension){
                             try{
-                                buildTasks = buildTasks.concat(Game.rooms[Game.rooms[this.memory.room].memory.extension[r]].memory.tasks.build);
+                                buildTasks = buildTasks.concat(Game.rooms[Memory.rooms[this.memory.room].extension[r]].memory.tasks.build);
                             }catch(e){
 
                             }
@@ -130,10 +155,10 @@ const creepExtension = {
                         }
                     }
                     
-                    for (var i in Game.rooms[this.memory.room].memory.tasks.upgrade) {
-                        if (!Game.rooms[this.memory.room].memory.tasks.upgrade[i].creepId && !this.memory.inTask) {
-                            Game.rooms[this.memory.room].memory.tasks.upgrade[i].creepId = this.id;
-                            this.memory.task = Game.rooms[this.memory.room].memory.tasks.upgrade[i];
+                    for (var i in Memory.rooms[this.memory.room].tasks.upgrade) {
+                        if (!Memory.rooms[this.memory.room].tasks.upgrade[i].creepId && !this.memory.inTask) {
+                            Memory.rooms[this.memory.room].tasks.upgrade[i].creepId = this.id;
+                            this.memory.task = Memory.rooms[this.memory.room].tasks.upgrade[i];
                             this.memory.inTask = true;
                             break;
                         }
@@ -142,10 +167,13 @@ const creepExtension = {
                 break;
             case 'reserver':
                 let reserveTasks = [];
-                if(Game.rooms[this.memory.room].memory.extension){
-                    for(let r in Game.rooms[this.memory.room].memory.extension){
+                if(Memory.rooms[this.memory.room].extension){
+                    for(let r in Memory.rooms[this.memory.room].extension){
+                        if(Memory.rooms[Memory.rooms[this.memory.room].extension[r]].tasks.guard.length > 0){
+                            continue;
+                        }
                         try{
-                            reserveTasks = reserveTasks.concat(Memory.rooms[Game.rooms[this.memory.room].memory.extension[r]].tasks.reserve);
+                            reserveTasks = reserveTasks.concat(Memory.rooms[Memory.rooms[this.memory.room].extension[r]].tasks.reserve);
                         }catch(e){
 
                         }
@@ -162,10 +190,10 @@ const creepExtension = {
                 break;
             case 'guard':
                 let guardTasks = [];
-                if(Game.rooms[this.memory.room].memory.extension){
-                    for(let r in Game.rooms[this.memory.room].memory.extension){
+                if(Memory.rooms[this.memory.room].extension){
+                    for(let r in Memory.rooms[this.memory.room].extension){
                         try{
-                            guardTasks = guardTasks.concat(Memory.rooms[Game.rooms[this.memory.room].memory.extension[r]].tasks.guard);
+                            guardTasks = guardTasks.concat(Memory.rooms[Memory.rooms[this.memory.room].extension[r]].tasks.guard);
                         }catch(e){
 
                         }
@@ -284,7 +312,7 @@ const creepExtension = {
                     }
                     break;
                 case 'delivery':
-                    if (this.store.getUsedCapacity() < 30) {
+                    if (this.store.getUsedCapacity() == 0) {
                         this.memory.inTask = false;
                         for (var i in Memory.rooms[this.memory.task.targetPosition.roomName].tasks.delivery) {
                             if (Memory.rooms[this.memory.task.targetPosition.roomName].tasks.delivery[i].creepId == this.id) {
@@ -293,7 +321,7 @@ const creepExtension = {
                             }
                         }
                     }
-                    if (Game.getObjectById(this.memory.task.releaserId).store.getFreeCapacity(RESOURCE_ENERGY) < 10) {
+                    if (Game.getObjectById(this.memory.task.releaserId).store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
                         this.memory.inTask = false;
                         for (var i in Memory.rooms[this.memory.task.targetPosition.roomName].tasks.delivery) {
                             if (Memory.rooms[this.memory.task.targetPosition.roomName].tasks.delivery[i].creepId == this.id) {

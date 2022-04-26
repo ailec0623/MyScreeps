@@ -15,10 +15,15 @@ module.exports.loop = function () {
     for(i in Game.rooms){
         Task.initTasks(Game.rooms[i]);
         Task.reserveTask(Game.rooms[i]);
+        Task.guardTask(Game.rooms[i]);
+        Task.repairTask(Game.rooms[i]);
     }
     ConstructionSites.run();
     Flags.run();
     Structures.run();
+    for(i in Game.rooms){
+        Task.sortTasks(Game.rooms[i]);
+    }
     Creeps.run();
     for(i in Game.rooms){
         try{
