@@ -20,10 +20,11 @@ const creepExtension = {
                         try{
                             harvestproTasks = harvestproTasks.concat(Memory.rooms[Memory.rooms[this.memory.room].extension[r]].tasks.harvestpro);
                         }catch(e){
-
+                            console.log(e.stack);
                         }
                     }
                 } 
+                
                 for (var i in harvestproTasks) {
                     if (!harvestproTasks[i].creepId && !this.memory.inTask) {
                         harvestproTasks[i].creepId = this.id;
@@ -34,7 +35,6 @@ const creepExtension = {
                 }
                 break;
             case 'carrier':
-
                 if (this.store[RESOURCE_ENERGY] == 0) {
                     let pickupTasks = Memory.rooms[this.memory.room].tasks.pickup;
                     if(pickupTasks[0] && pickupTasks[0].priority < 70){
@@ -169,6 +169,7 @@ const creepExtension = {
                 let reserveTasks = [];
                 if(Memory.rooms[this.memory.room].extension){
                     for(let r in Memory.rooms[this.memory.room].extension){
+                        
                         if(Memory.rooms[Memory.rooms[this.memory.room].extension[r]].tasks.guard.length > 0){
                             continue;
                         }
@@ -208,6 +209,9 @@ const creepExtension = {
                     }
                 }
                 break;
+            case 'getpower':
+                this.memory.inTask = true;
+                break;
         }
     },
     operate: function () {
@@ -215,43 +219,81 @@ const creepExtension = {
             return;
         }
         if (this.memory.inTask) {
-            // if(this.memory.role == 'm'){
-            //     this.moveTo(new RoomPosition(46, 3, 'E41N23'));
-            //     return;
-            // }
-            // if(this.memory.role == 'a'){
-            //     if(this.attack(Game.getObjectById('625f953b9e00394955b0817c')) == ERR_NOT_IN_RANGE){
-            //         this.moveTo(Game.getObjectById('625f953b9e00394955b0817c'));
-            //     }
-            // }
-            // if(this.memory.role == 'claimer'){
-            //     var room = Game.rooms['E41N22'];
-            //     try{
-            //         if (this.claimController(room.controller) == ERR_NOT_IN_RANGE) {
-            //             this.moveTo(room.controller);
-            //         }
-            //     }catch{
-            //         this.moveTo(new RoomPosition(25, 25, 'E41N22'));
-            //     }
-            //     return;
-            // }
-            // if(this.memory.role == 'initializer'){
-            //     var room = Game.rooms['E41N22'];
-            //     if(this.store.getUsedCapacity(RESOURCE_ENERGY) == 0){
-            //         if(this.withdraw(Game.rooms['E41N24'].storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            //             this.moveTo(Game.rooms['E41N24'].storage);
-            //         }
-            //     }else{
-            //         try{
-            //             if (this.build(room.find(FIND_MY_CONSTRUCTION_SITES)[0]) == ERR_NOT_IN_RANGE) {
-            //                 this.moveTo(room.find(FIND_MY_CONSTRUCTION_SITES)[0]);
-            //             }
-            //         }catch{
-            //             this.moveTo(new RoomPosition(25, 25, 'E41N22'));
-            //         }
-            //     }
-            //     return;
-            // }
+            if(this.memory.role == 'm'){
+                this.moveTo(new RoomPosition(25, 25, 'E43N21'));
+                return;
+            }
+            if(this.memory.role == 'a'){
+                if(this.room.name != 'E43N21'){
+                    this.moveTo(new RoomPosition(30, 45, 'E43N21'));
+                }else{
+                    if(this.dismantle(Game.getObjectById('63598e9858b1ca287f9ce80c')) != 0){
+                        this.moveTo(Game.getObjectById('63598e9858b1ca287f9ce80c'));
+                    }
+                }
+            }
+            if(this.memory.role == 'claimer'){
+                var room = Game.rooms['E42N21'];
+                try{
+                    if (this.claimController(room.controller) == ERR_NOT_IN_RANGE) {
+                        this.moveTo(room.controller);
+                    }
+                }catch{
+                    this.moveTo(new RoomPosition(25, 25, 'E42N21'));
+                }
+                return;
+            }
+            if(this.memory.role == 'initializer'){
+                var room = Game.rooms['E42N21'];
+                if(this.store.getUsedCapacity(RESOURCE_ENERGY) == 0){
+                    if(this.withdraw(Game.rooms['E41N22'].storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        this.moveTo(Game.rooms['E41N22'].storage);
+                    }
+                }else{
+                    try{
+
+                        var r1 = this.build(room.find(FIND_MY_CONSTRUCTION_SITES)[0]);
+                        if (r1 == ERR_NOT_IN_RANGE) {
+                            this.moveTo(room.find(FIND_MY_CONSTRUCTION_SITES)[0]);
+                            return;
+                        }else if (r1 == ERR_INVALID_TARGET && Game.getObjectById("63950b9705a170160de01e69").getFreeCapacity > 0) {
+                            var r2 = this.transfer(Game.getObjectById("63950b9705a170160de01e69"), RESOURCE_ENERGY)
+                            if(r2 == ERR_NOT_IN_RANGE) {
+                                this.moveTo(Game.getObjectById("63950b9705a170160de01e69"));
+                                return;
+                            }
+                        }else{
+                            if(this.upgradeController(room.controller) == ERR_NOT_IN_RANGE){
+                                this.moveTo(room.controller);
+                            }
+                        }
+                    }catch(e){
+                        console.log(e.stack)
+                        this.moveTo(new RoomPosition(25, 25, 'E42N21'));
+                    }
+                    
+                }
+                return;
+            }
+            if(this.memory.role == 'getpower'){
+                try{
+                    if(this.hits < this.hitsMax){
+                        this.heal(this);
+                    }else{
+                        
+                        var target = Game.getObjectById('626ad64330b5ac0dacc37169');
+                        if (this.attack(target) != 0) {
+                            if (this.moveTo(target) != 0){
+                                this.moveTo(new RoomPosition(25, 25, 'E40N22'));
+                            }
+                        }
+                    }
+                }catch{
+                    
+                    this.moveTo(new RoomPosition(40, 32, 'E40N22'));
+                }
+                return;
+            }
             if(!this.memory.task){
                 return;
             }
@@ -268,7 +310,7 @@ const creepExtension = {
                 case 'guard': Behavior.guard(this, this.memory.task); break;
             }
         } else {
-            this.say('😪');
+            // this.say('😪');
         }
     },
     reviewTask: function () {
@@ -321,7 +363,7 @@ const creepExtension = {
                             }
                         }
                     }
-                    if (Game.getObjectById(this.memory.task.releaserId).store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
+                    if (Game.getObjectById(this.memory.task.releaserId).store.getFreeCapacity(RESOURCE_ENERGY) < 2) {
                         this.memory.inTask = false;
                         for (var i in Memory.rooms[this.memory.task.targetPosition.roomName].tasks.delivery) {
                             if (Memory.rooms[this.memory.task.targetPosition.roomName].tasks.delivery[i].creepId == this.id) {

@@ -1,5 +1,5 @@
 var Releaser = {
-    releaseTask: function(room, taskType, sourcePosition, targetPosition, releaserId, priority){
+    releaseTask: function(room, taskType, sourcePosition, targetPosition, releaserId, priority, addition){
         // switch(taskType){
         //     case 'harvestpro': this.releaseHarvestProTask(room, sourcePosition, targetPosition, releaserId, priority); break;
         //     case 'pickup': this.releasePickUpTask(room, sourcePosition, targetPosition, releaserId, priority); break;
@@ -16,9 +16,15 @@ var Releaser = {
             sourcePosition: sourcePosition,
             targetPosition: targetPosition,
             priority: priority,
-            releaserId: releaserId
+            releaserId: releaserId,
+            addition: addition
         };
-        Memory.rooms[room.name].tasks[taskType].push(task);
+        try{
+            Memory.rooms[room.name].tasks[taskType].push(task);
+        }catch{
+            Memory.rooms[room.name].tasks[taskType] = []
+        }
+        
     },
     releaseHarvestProTask(room, sourcePosition, targetPosition, releaserId, priority){
         const task = {

@@ -24,7 +24,18 @@ var Flag = {
         }
         if (!haveTask) {
             var target = f.pos.findClosestByRange(FIND_SOURCES);
-            Releaser.releaseTask(room, 'harvestpro',f.pos, target.pos, target.id, 1);
+            var links = f.pos.findInRange(FIND_MY_STRUCTURES, 1, {
+                filter: (s) =>{
+                    return s.structureType == STRUCTURE_LINK;
+                }
+            });
+            if(links.length > 0){
+                var addition = {
+                    link: links[0].id
+                }
+            }
+            
+            Releaser.releaseTask(room, 'harvestpro',f.pos, target.pos, target.id, 1, addition);
         }
     },
     pickupTasks: function(f, room){
@@ -48,6 +59,9 @@ var Flag = {
         }
         catch{
         }
+        if(amount < 100){
+            return;
+        }
         if(!target1 && !target2){
             return;
         }
@@ -62,8 +76,8 @@ var Flag = {
             }
         }
 
-        if (haveTask < 2){
-            Releaser.releaseTask(room, 'pickup', f.pos, f.pos, target.id, 100 - (amount / 50));
+        if (haveTask < Math.min(2, (amount / 300))){
+            Releaser.releaseTask(room, 'pickup', f.pos, f.pos, target.id, 100 - (amount / 50), null);
         }
     }
 }

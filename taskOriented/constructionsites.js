@@ -14,7 +14,7 @@ var ConstructionSite = {
                 if (haveTask > 2) {
                     continue;
                 } else {
-                    Releaser.releaseTask(room, 'build', Game.constructionSites[i].pos, Game.constructionSites[i].pos, Game.constructionSites[i].id, 1);
+                    Releaser.releaseTask(room, 'build', Game.constructionSites[i].pos, Game.constructionSites[i].pos, Game.constructionSites[i].id, 1, null);
                 }
             }
         }
